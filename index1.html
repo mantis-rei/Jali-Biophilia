@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jali Biophilia — Where Nature Meets Your Potential</title>
+<meta name="description" content="Rwanda's premier digital gateway for nature-integrated wellness tourism beneath Mt Jali, Kigali.">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.18/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.18/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.18/index.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#1B4D3E',
+        pale: '#F4E4BC',
+        forest: '#0D3328',
+        mist: '#F7F9F4',
+        earth: '#8B6914',
+        coral: '#E07A5F',
+        amber: '#D4A843',
+      },
+      fontFamily: {
+        display: ['"Space Grotesk"', 'sans-serif'],
+        body: ['"Inter"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      }
+    }
+  }
+}
+</script>
+
+<style>
+:root {
+  --primary: #1B4D3E;
+  --pale: #F4E4BC;
+  --forest: #0D3328;
+  --mist: #F7F9F4;
+  --earth: #8B6914;
+  --coral: #E07A5F;
+  --amber: #D4A843;
+  --mode-accent: #1B4D3E;
+  --mode-accent-light: #F4E4BC;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: auto; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--mist);
+  color: var(--forest);
+  overflow-x: hidden;
+}
+
+.font-display { font-family: 'Space Grotesk', sans-serif; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Lenis smooth scroll */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+/* Glassmorphism Nav */
+.nav-glass {
+  background: rgba(247, 249, 244, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(27, 77, 62, 0.08);
+}
+
+.nav-glass.sport-mode {
+  background: rgba(247, 249, 244, 0.8);
+  border-bottom-color: rgba(212, 168, 67, 0.15);
+}
+
+/* Mode Switcher */
+.mode-switcher {
+  display: inline-flex;
+  background: rgba(27, 77, 62, 0.08);
+  border-radius: 9999px;
+  padding: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+.mode-switcher .mode-pill {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  height: calc(100% - 8px);
+  width: calc(50% - 4px);
+  background: var(--primary);
+  border-radius: 9999px;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease;
+  z-index: 0;
+}
+
+.mode-switcher.sport .mode-pill {
+  transform: translateX(100%);
+  background: var(--coral);
+}
+
+.mode-switcher span {
+  position: relative;
+  z-index: 1;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--forest);
+  transition: color 0.3s;
+  user-select: none;
+}
+
+.mode-switcher .active-label { color: white; }
+
+/* Hero */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  overflow: hidden;
+}
+
+.hero-bg {
+   position: absolute;
+   inset: 0;
+   background: url('https://res.cloudinary.com/dosn0tito/image/upload/v1782213905/JB_Homepage_img_m5uswb.png') center/cover no-repeat;
+   transform: scale(1.1);
+   will-change: transform;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(13,51,40,0.3) 0%, rgba(13,51,40,0.1) 40%, rgba(13,51,40,0.6) 100%);
+}
+
+.hero-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25%;
+  background: linear-gradient(to bottom, transparent 0%, var(--forest) 100%);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--primary);
+  color: var(--mist);
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { transform: scale(1.02); box-shadow: 0 12px 32px rgba(27,77,62,0.3); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--primary);
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 2px solid var(--primary);
+  transition: all 0.3s;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-secondary:hover { background: var(--primary); color: var(--mist); }
+
+.btn-accent {
+  background: var(--pale);
+  color: var(--forest);
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.btn-accent:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+.btn-sport {
+  background: var(--coral);
+  color: var(--mist);
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.btn-sport:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(224,122,95,0.4); }
+
+/* Cards */
+.service-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(13,51,40,0.08);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+.service-card:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(13,51,40,0.15); }
+
+/* Portrait Grid */
+.portrait-card {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4/5;
+  transition: all 0.3s;
+}
+.portrait-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s;
+}
+.portrait-card:hover img { filter: brightness(1.05); }
+
+/* Counter */
+.counter-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1;
+}
+
+/* Chat Widget */
+.chat-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.chat-toggle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(27,77,62,0.3);
+  transition: all 0.3s;
+  font-size: 1.5rem;
+}
+.chat-toggle:hover { transform: scale(1.1); }
+.chat-toggle.sport-mode-btn { background: var(--coral); box-shadow: 0 8px 24px rgba(224,122,95,0.4); }
+
+.chat-panel {
+  position: absolute;
+  bottom: 72px;
+  right: 0;
+  width: 380px;
+  max-width: calc(100vw - 48px);
+  height: 520px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(13,51,40,0.2);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  animation: chatSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.chat-panel.open { display: flex; }
+
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.chat-header {
+  background: linear-gradient(135deg, var(--primary), #2d7a5e);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chat-header.sport-header { background: linear-gradient(135deg, var(--coral), #c4624a); }
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-msg {
+  max-width: 85%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  animation: msgIn 0.3s ease;
+}
+@keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.chat-msg.bot {
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  color: var(--forest);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.chat-msg.bot.sport-msg { background: linear-gradient(135deg, #fff3e0, #fce4ec); }
+
+.chat-msg.user {
+  background: var(--primary);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.user.sport-user { background: var(--coral); }
+
+.chat-input-area {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 8px;
+}
+.chat-input-area input {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border 0.3s;
+}
+.chat-input-area input:focus { border-color: var(--primary); }
+.chat-input-area button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.chat-input-area button:hover { transform: scale(1.1); }
+
+/* Quick replies */
+.quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 16px 12px;
+}
+.quick-reply {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quick-reply:hover { background: var(--primary); color: white; }
+
+/* Three.js Container */
+#three-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(180deg, #87CEEB 0%, #e8f5e9 100%);
+}
+
+/* Booking Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13,51,40,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-content {
+  background: white;
+  border-radius: 24px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+/* Form inputs */
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  transition: all 0.3s;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+}
+.form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
+
+/* Sport Mode overrides */
+body.sport-active {
+  --mode-accent: var(--coral);
+  --mode-accent-light: #fff3e0;
+}
+body.sport-active .btn-primary { background: var(--coral); }
+body.sport-active .btn-primary:hover { box-shadow: 0 12px 32px rgba(224,122,95,0.3); }
+body.sport-active .btn-secondary { color: var(--coral); border-color: var(--coral); }
+body.sport-active .btn-secondary:hover { background: var(--coral); }
+body.sport-active .service-card:hover { box-shadow: 0 16px 48px rgba(224,122,95,0.15); }
+body.sport-active .form-input:focus { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }
+
+/* Scroll reveal */
+.section-reveal { opacity: 0; transform: translateY(40px); }
+
+/* Pulse animation */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.pulse-anim { animation: pulse-soft 2s ease-in-out infinite; }
+
+/* Leaf animation for chatbot */
+@keyframes leafPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(5deg); }
+}
+.leaf-pulse { animation: leafPulse 1.5s ease-in-out infinite; }
+
+/* Typing indicator */
+.typing-dots { display: flex; gap: 4px; padding: 8px 0; }
+.typing-dots span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--primary);
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Map marker */
+.map-marker {
+  position: absolute;
+  width: 36px; height: 36px;
+  background: var(--primary);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.map-marker:hover { transform: rotate(-45deg) scale(1.2); }
+.map-marker span { transform: rotate(45deg); color: white; font-size: 1rem; }
+
+/* SDG badges */
+.sdg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Weather widget */
+.weather-widget {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .counter-value { font-size: 2rem; }
+  .chat-panel { width: calc(100vw - 32px); right: -8px; }
+  #three-container { height: 350px; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--mist); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--forest); }
+
+/* Elevation chart */
+.elevation-chart {
+  width: 100%;
+  height: 200px;
+  position: relative;
+}
+
+/* Trail difficulty leaves */
+.leaf-rating { display: flex; gap: 2px; }
+.leaf-rating .leaf { color: var(--primary); font-size: 1.2rem; }
+.leaf-rating .leaf.empty { opacity: 0.2; }
+
+/* Sport mode workout card */
+.workout-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 24px rgba(13,51,40,0.08);
+  border-left: 4px solid var(--coral);
+  transition: all 0.3s;
+}
+.workout-card:hover { transform: translateX(4px); }
+
+/* Progress bar */
+.progress-bar {
+  height: 8px;
+  background: #e8e8e8;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-bar .fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #2d7a5e);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+body.sport-active .progress-bar .fill {
+  background: linear-gradient(90deg, var(--coral), var(--amber));
+}
+
+/* Nav mobile menu */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--mist);
+  z-index: 1500;
+  display: none;
+  flex-direction: column;
+  padding: 80px 24px 24px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  padding: 16px 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--forest);
+  border-bottom: 1px solid rgba(27,77,62,0.1);
+  text-decoration: none;
+}
+
+/* Hamburger */
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+.hamburger span { width: 24px; height: 2px; background: var(--forest); transition: all 0.3s; }
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links-desktop { display: none !important; }
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Glow effect for sport mode */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(224,122,95,0.3); }
+  50% { box-shadow: 0 0 40px rgba(224,122,95,0.5); }
+}
+.glow-effect { animation: glow 2s ease-in-out infinite; }
+
+/* Text scramble placeholder */
+.scramble-text { font-family: 'JetBrains Mono', monospace; }
+
+/* Availability indicator */
+.availability-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  display: inline-block;
+}
+.availability-dot.available { background: #4caf50; }
+.availability-dot.limited { background: #ff9800; }
+.availability-dot.full { background: #f44336; }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav-glass fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="mainNav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-[72px]">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <img src="https://res.cloudinary.com/dosn0tito/image/upload/v1782199018/JB_logo_zfb0fm.png" alt="Jali Biophilia Logo" class="w-20 h-20 rounded-xl object-contain group-hover:scale-110 transition-transform">
+        <div>
+          <div class="font-display font-bold text-lg text-forest leading-tight">Jali Biophilia</div>
+          <div class="text-[10px] text-earth font-medium tracking-wider uppercase">Gashyushya · Kigali</div>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <div class="nav-links-desktop flex items-center gap-8">
+        <a href="#services" class="text-sm font-medium text-forest hover:text-primary transition-colors">Services</a>
+        <a href="#trails" class="text-sm font-medium text-forest hover:text-primary transition-colors">Trails</a>
+        <a href="#map" class="text-sm font-medium text-forest hover:text-primary transition-colors">Map</a>
+        <a href="#community" class="text-sm font-medium text-forest hover:text-primary transition-colors">Community</a>
+        <a href="#booking" class="text-sm font-medium text-forest hover:text-primary transition-colors">Book</a>
+      </div>
+
+      <!-- Center: Mode Switcher -->
+      <div class="mode-switcher" id="modeSwitcher" onclick="toggleMode()">
+        <div class="mode-pill"></div>
+        <span class="active-label" id="touristLabel">🌿 Tourist</span>
+        <span id="sportLabel">🔥 Sport</span>
+      </div>
+
+      <!-- Right: Language + CTA -->
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex items-center gap-2 text-sm font-medium text-forest cursor-pointer hover:text-primary transition-colors" id="langSelector">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+          <span>EN</span>
+        </div>
+        <button class="btn-primary hidden sm:inline-flex text-sm !py-2.5 !px-5" onclick="openBooking()">Book Now</button>
+        <div class="hamburger" onclick="toggleMobileMenu()">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="toggleMobileMenu()">Services</a>
+  <a href="#trails" onclick="toggleMobileMenu()">Trails</a>
+  <a href="#map" onclick="toggleMobileMenu()">Map</a>
+  <a href="#community" onclick="toggleMobileMenu()">Community</a>
+  <a href="#booking" onclick="toggleMobileMenu()">Book Now</a>
+  <a href="#sport" onclick="toggleMobileMenu()">Sport Mode</a>
+  <div class="mt-auto pt-8">
+    <button class="btn-primary w-full justify-center" onclick="openBooking(); toggleMobileMenu();">Book Your Experience</button>
+  </div>
+</div>
+
+<!-- Hero Section -->
+<section class="hero-section" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-overlay-bottom"></div>
+
+  <div class="relative z-10 h-full flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Weather Widget -->
+    <div class="weather-widget absolute top-28 right-4 sm:right-8 hidden sm:flex" id="weatherWidget">
+      <svg class="w-8 h-8 text-pale" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      <div>
+        <div class="font-display font-bold text-xl">22°C</div>
+        <div class="text-xs opacity-80">Gashyushya · Partly Cloudy</div>
+      </div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="max-w-3xl">
+      <div class="hero-label text-pale font-mono text-sm tracking-[0.3em] uppercase mb-4 opacity-0" id="heroLabel">Gashyushya, Kigali · Rwanda</div>
+      <h1 class="font-display font-bold text-white text-5xl sm:text-7xl lg:text-8xl leading-[0.95] mb-6" id="heroTitle">
+        <span class="block overflow-hidden"><span class="inline-block" id="heroTitle1">JALI</span></span>
+        <span class="block overflow-hidden"><span class="inline-block text-pale" id="heroTitle2">BIOPHILIA</span></span>
+      </h1>
+      <p class="text-white/90 text-lg sm:text-xl max-w-xl mb-8 opacity-0" id="heroSubtitle">
+        Nature Watching · Family Park · Hiking · Tourism Camp<br>
+        <span class="text-pale font-medium">Where Nature Meets Your Potential</span>
+      </p>
+      <div class="flex flex-wrap gap-4 opacity-0" id="heroCta">
+        <button class="btn-primary !bg-pale !text-forest hover:!bg-white" onclick="openBooking()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Book Your Experience
+        </button>
+        <a href="#services" class="btn-accent">Explore Services</a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-32 left-1/2 -translate-x-1/2 text-white/70 flex flex-col items-center gap-2 pulse-anim" id="scrollIndicator">
+      <span class="text-xs font-mono tracking-wider">SCROLL TO BEGIN YOUR JOURNEY</span>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    </div>
+
+    <!-- Elevation Badge -->
+    <div class="absolute bottom-32 right-4 sm:right-8 hidden sm:block">
+      <div class="text-right">
+        <div class="text-pale font-mono text-xs tracking-wider">ELEVATION</div>
+        <div class="font-display font-bold text-white text-3xl" id="elevationCounter">0m</div>
+        <div class="text-white/60 text-xs">above sea level</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Introduction Section -->
+<section class="py-24 sm:py-32 bg-mist" id="intro">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+      <div class="lg:col-span-3 section-reveal">
+        <span class="badge bg-pale text-earth mb-6">OUR STORY</span>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl text-forest mb-6 leading-tight">
+          Where Mt Jali Meets<br>Your <span class="text-primary">Spirit</span>
+        </h2>
+        <p class="text-forest/70 text-lg leading-relaxed mb-6">
+          Nestled in the Gashyushya valley beneath the iconic Mt Jali (2,078m) — one of Kigali's most majestic peaks — Jali Biophilia is Rwanda's premier nature-integrated wellness destination. Our story begins with the ancient legacy of King Cyilima I Rungwe and the timeless bond between the Rwandan people and their thousand hills.
+        </p>
+        <p class="text-forest/70 text-lg leading-relaxed mb-8">
+          Here, biophilia — our innate human connection to nature — comes alive through guided forest walks, open-air wellness, farm-to-table nutrition, and AI-powered personal coaching. Every trail, every breath of eucalyptus-scented air, every hornbill call is an invitation to reconnect with what matters most.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#services" class="btn-primary">Explore Our Story</a>
+          <a href="#map" class="btn-secondary">View Interactive Map</a>
+        </div>
+      </div>
+      <div class="lg:col-span-2 section-reveal">
+        <div class="relative">
+          <div class="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+          <video src="https://res.cloudinary.com/dosn0tito/video/upload/v1782213632/Jali_Biophilia_Aerial_View_30fps_lvmnoh.mp4" alt="Mt Jali Landscape" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
+          </div>
+          <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-6 shadow-xl max-w-[220px]">
+            <div class="mt-3 flex items-center gap-2">
+              <div class="availability-dot available"></div>
+              <span class="text-xs font-medium text-forest/70">Trails Open Today</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Grid -->
+<section class="py-24 sm:py-32 bg-white" id="services">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 section-reveal">
+      <span class="badge bg-pale text-earth mb-4">WHAT WE OFFER</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl text-forest mb-4">Our Services</h2>
+      <p class="text-forest/60 text-lg max-w-2xl mx-auto">Four pillars of nature-integrated wellness, designed for every visitor</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8" id="servicesGrid">
+      <!-- Nature Watching -->
+      <div class="service-card section-reveal">
+        <div class="aspect-[16/9] overflow-hidden">
+          <video src="https://res.cloudinary.com/dosn0tito/video/upload/v1782213658/Nature_watching_video_30fps_e8hxtt.mp4" alt="Nature Watching" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" autoplay muted loop playsinline></video>
+        </div>
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-display font-bold text-2xl text-forest">Nature Watching</h3>
+            <div class="flex items-center gap-2">
+              <div class="availability-dot available"></div>
+              <span class="text-xs font-medium text-forest/60">Available</span>
+            </div>
+          </div>
+          <p class="text-forest/60 mb-4">Discover 120+ bird species, indigenous flora, and rare mammals through guided observation decks and expert-led forest walks.</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-mono text-earth">From RWF 5,000</span>
+            <a href="#" class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
+              Learn More
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Family Park -->
+      <div class="service-card section-reveal">
+        <div class="aspect-[16/9] overflow-hidden">
+          <video src="https://res.cloudinary.com/dosn0tito/video/upload/v1782213656/Sporting_at_Playground_30fps_wlu5jd.mp4" alt="Family Park" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" autoplay muted loop playsinline></video>
+        </div>
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-display font-bold text-2xl text-forest">Family Park</h3>
+            <div class="flex items-center gap-2">
+              <div class="availability-dot available"></div>
+              <span class="text-xs font-medium text-forest/60">Available</span>
+            </div>
+          </div>
+          <p class="text-forest/60 mb-4">Natural playgrounds, picnic areas, educational trails, and safe zones designed for families with children of all ages.</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-mono text-earth">From RWF 3,000</span>
+            <a href="#" class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
+              Learn More
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hiking -->
+      <div class="service-card section-reveal">
+        <div class="aspect-[16/9] overflow-hidden">
+          <video src="https://res.cloudinary.com/dosn0tito/video/upload/v1782213632/Hiking_video_30fps_agriju.mp4" alt="Hiking" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" autoplay muted loop playsinline></video>
+        </div>
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-display font-bold text-2xl text-forest">Hiking</h3>
+            <div class="flex items-center gap-2">
+              <div class="availability-dot available"></div>
+              <span class="text-xs font-medium text-forest/60">Available</span>
+            </div>
+          </div>
+          <p class="text-forest/60 mb-4">Three trail options from Valley Loop (2km) to Summit Challenge (6km). Guided tours, equipment rental, and panoramic viewpoints.</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-mono text-earth">From RWF 15,000</span>
+            <a href="#" class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
+              Learn More
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tourism Camp -->
+      <div class="service-card section-reveal">
+        <div class="aspect-[16/9] overflow-hidden">
+          <video src="https://res.cloudinary.com/dosn0tito/video/upload/v1782213630/camping_video_30fps_wsb4ig.mp4" alt="Tourism Camp" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" autoplay muted loop playsinline></video>
+        </div>
+        <div class="p-8">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-display font-bold text-2xl text-forest">Tourism Camp</h3>
+            <div class="flex items-center gap-2">
+              <div class="availability-dot limited"></div>
+              <span class="text-xs font-medium text-forest/60">Limited</span>
+            </div>
+          </div>
+          <p class="text-forest/60 mb-4">Camping plots, glamping tents, bonfire areas, and star-gazing experiences under the Rwandan night sky.</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-mono text-earth">From RWF 25,000/night</span>
+            <a href="#" class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
+              Learn More
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trails Section -->
+<section class="py-24 sm:py-32 bg-mist" id="trails">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 section-reveal">
+      <span class="badge bg-pale text-earth mb-4">TRAIL NETWORK</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl text-forest mb-4">Choose Your Path</h2>
+      <p class="text-forest/60 text-lg max-w-2xl mx-auto">Three trails of varying difficulty, all starting from the Gashyushya valley entrance</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Valley Loop -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-lg section-reveal hover:shadow-xl transition-shadow">
+        <div class="h-48 bg-gradient-to-br from-green-200 to-green-400 flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 opacity-30" style="background: url('https://image.qwenlm.ai/public_source/534da5a8-8c73-4950-9fd3-ab6e465164d5/1036f4a1c-25d8-4504-bbd9-85b83e8faa84.png') center/cover;"></div>
+          <div class="relative text-center">
+            <div class="font-display font-bold text-5xl text-white drop-shadow-lg">2km</div>
+            <div class="text-white/90 text-sm font-medium">Valley Loop</div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="badge bg-green-100 text-green-700">Easy</span>
+            <div class="leaf-rating">
+              <span class="leaf">🍃</span>
+              <span class="leaf empty"></span>
+              <span class="leaf empty">🍃</span>
+              <span class="leaf empty">🍃</span>
+              <span class="leaf empty">🍃</span>
+            </div>
+          </div>
+          <h3 class="font-display font-bold text-xl text-forest mb-2">Valley Loop</h3>
+          <p class="text-forest/60 text-sm mb-4">A gentle introduction to the Gashyushya ecosystem. Perfect for families and beginners.</p>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span class="text-forest/50">Duration</span><span class="font-medium text-forest">45 min</span></div>
+            <div class="flex justify-between"><span class="text-forest/50">Elevation Gain</span><span class="font-medium text-forest">120m</span></div>
+            <div class="flex justify-between"><span class="text-forest/50">Surface</span><span class="font-medium text-forest">Packed earth</span></div>
+          </div>
+          <button class="btn-secondary w-full justify-center mt-6 !py-3" onclick="openBooking()">Book Trail</button>
+        </div>
+      </div>
+
+      <!-- Forest Ascent -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-lg section-reveal hover:shadow-xl transition-shadow ring-2 ring-primary/20">
+        <div class="absolute top-4 right-4 z-10"><span class="badge bg-pale text-earth">POPULAR</span></div>
+        <div class="h-48 bg-gradient-to-br from-primary to-forest flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 opacity-30" style="background: url('https://image.qwenlm.ai/public_source/534da5a8-8c73-4950-9fd3-ab6e465164d5/1036f4a1c-25d8-4504-bbd9-85b83e8faa84.png') center/cover;"></div>
+          <div class="relative text-center">
+            <div class="font-display font-bold text-5xl text-white drop-shadow-lg">4km</div>
+            <div class="text-white/90 text-sm font-medium">Forest Ascent</div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="badge bg-yellow-100 text-yellow-700">Moderate</span>
+            <div class="leaf-rating">
+              <span class="leaf">🍃</span>
+              <span class="leaf">🍃</span>
+              <span class="leaf">🍃</span>
+              <span class="leaf empty">🍃</span>
+              <span class="leaf empty"></span>
+            </div>
+          </div>
+          <h3 class="font-display font-bold text-xl text-forest mb-2">Forest Ascent</h3>
+          <p class="text-forest/60 text-sm mb-4">Wind through ancient forest canopy with panoramic views of Kigali's thousand hills.</p>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span class="text-forest/50">Duration</span><span class="font-medium text-forest">2 hours</span></div>
+            <div class="flex justify-between"><span class="text-forest/50">Elevation Gain</span><span class="font-medium text-forest">450m</span></div>
+            <div class="flex justify-between"><span class="text-forest/50">Surface</span><span class="font-medium text-forest">Mixed terrain</span></div>
+          </div>
+          <button class="btn-primary w-full justify-center mt-6 !py-3" onclick="openBooking()">Book Trail</button>
+        </div>
+      </div>
+
+      <!-- Summit Challenge -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-lg section-reveal hover:shadow-xl transition-shadow">
+        <div class="h-48 bg-gradient-to-br from-coral to-red-400 flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 opacity-30" style="background: url('https://image.qwenlm.ai/public_source/534da5a8-8c73-4950-9fd3-ab6e465164d5/1891cb4f3-b9c2-4f8b-86c2-6add44242edd.png') center/cover;"></div>
+          <div class="relative text-center">
+            <div class="font-display font-bold text-5xl text-white drop-shadow-lg">6km</div>
+            <div class="text-white/90 text-sm font-medium">Summit Challenge</div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="badge bg-red-100 text-red-700">Hard</span>
+            <div class="leaf-rating">
+              <span class="leaf">🍃</span>
+              <span class="leaf">🍃</span>
+              <span class="leaf">🍃</span>
+              <span class="leaf"></span>
+              <span class="leaf">🍃</span>
+            </div>
+          </div>
+          <h3 class="font-display font-bold text-xl text-forest mb-2">Summit Challenge</h3>
+          <p class="text-forest/60 text-sm mb-4">Reach the 2,078m summit of Mt Jali. Breathtaking 360° views of Rwanda's landscape.</p>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span class="text-forest/50">Duration</span><span class="font-medium text-forest">3.5 hours</span></div>
+            <div class="flex justify-between"><span class="text-forest/50">Elevation Gain</span><span class="font-medium text-forest">850m</span></div>
+            <div class="flex justify-between"><span class="text-forest/50">Surface</span><span class="font-medium text-forest">Rocky/steep</span></div>
+          </div>
+          <button class="btn-sport w-full justify-center mt-6 !py-3" onclick="openBooking()">Book Trail</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D Map Section -->
+<section class="py-24 sm:py-32 bg-white" id="map">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 section-reveal">
+      <span class="badge bg-pale text-earth mb-4">INTERACTIVE MAP</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl text-forest mb-4">Explore Mt Jali Terrain</h2>
+      <p class="text-forest/60 text-lg max-w-2xl mx-auto">Drag to rotate, scroll to zoom. Click markers to discover points of interest.</p>
+    </div>
+
+    <div class="section-reveal">
+      <div id="three-container" class="shadow-2xl">
+        <div id="mapMarkers" class="absolute inset-0 pointer-events-none"></div>
+        <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur rounded-xl p-4 shadow-lg max-w-xs">
+          <div class="font-display font-bold text-sm text-forest mb-2">Map Legend</div>
+          <div class="space-y-1.5 text-xs">
+            <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-primary"></div><span class="text-forest/70">Entrance & Parking</span></div>
+            <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-earth"></div><span class="text-forest/70">Family Park</span></div>
+            <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-coral"></div><span class="text-forest/70">Hiking Trails</span></div>
+            <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-amber"></div><span class="text-forest/70">Campground</span></div>
+            <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-pale border border-earth"></div><span class="text-forest/70">Natural Gymnasium</span></div>
+          </div>
+        </div>
+        <div class="absolute top-4 right-4 flex gap-2">
+          <button class="w-10 h-10 bg-white/90 backdrop-blur rounded-lg shadow flex items-center justify-center text-forest hover:bg-white transition-colors" onclick="resetCamera()">⟲</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Community / Testimonials -->
+<section class="py-24 sm:py-32 bg-mist" id="community">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 section-reveal">
+      <span class="badge bg-pale text-earth mb-4">COMMUNITY</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl text-forest mb-4">Voices from Jali</h2>
+      <p class="text-forest/60 text-lg max-w-2xl mx-auto">Meet the people who make Jali Biophilia a living, breathing community</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+      <div class="portrait-card section-reveal">
+        <img src="https://image.qwenlm.ai/public_source/534da5a8-8c73-4950-9fd3-ab6e465164d5/1070debd9-1ac0-4316-a175-0106a75e5a27.png" alt="Jean-Pierre, Guide">
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+          <div class="text-white font-display font-bold text-sm">Jean-Pierre</div>
+          <div class="text-white/70 text-xs">Lead Trail Guide</div>
+        </div>
+      </div>
+      <div class="portrait-card section-reveal">
+        <img src="https://image.qwenlm.ai/public_source/534da5a8-8c73-4950-9fd3-ab6e465164d5/10fd84914-ff5d-49cc-af26-9c64ef30fa06.png" alt="Aline, Conservationist">
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+          <div class="text-white font-display font-bold text-sm">Aline</div>
+          <div class="text-white/70 text-xs">Conservation Lead</div>
+        </div>
+      </div>
+      <div class="portrait-card section-reveal">
+        <img src="https://image.qwenlm.ai/public_source/534da5a8-8c73-4950-9fd3-ab6e465164d5/183751ed2-5578-4171-b575-baaa7986cdbc.png" alt="Mzee Habimana, Elder">
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+          <div class="text-white font-display font-bold text-sm">Mzee Habimana</div>
+          <div class="text-white/70 text-xs">Community Elder</div>
+        </div>
+      </div>
+      <div class="portrait-card section-reveal">
+        <img src="https://image.qwenlm.ai/public_source/534da5a8-8c73-4950-9fd3-ab6e465164d5/1cc501880-eb22-4e88-809b-c3aff8fb8fed.png" alt="Diane, Fitness Coach">
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+          <div class="text-white font-display font-bold text-sm">Diane</div>
+          <div class="text-white/70 text-xs">Mbaraga Coach</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white rounded-2xl p-8 shadow-lg section-reveal">
+        <div class="flex items-center gap-1 mb-4 text-amber">★★★★★</div>
+        <p class="text-forest/70 mb-6 italic">"The Forest Ascent trail was breathtaking. Our guide Jean-Pierre knew every bird call and plant species. This is what eco-tourism should be."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-display font-bold text-primary">SM</div>
+          <div>
+            <div class="font-semibold text-sm text-forest">Sarah M.</div>
+            <div class="text-xs text-forest/50">Berlin, Germany · Oct 2025</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-8 shadow-lg section-reveal">
+        <div class="flex items-center gap-1 mb-4 text-amber">★★★★★</div>
+        <p class="text-forest/70 mb-6 italic">"My kids loved the natural playground. We spent the whole day here — picnic, trails, and the bonfire at sunset. Perfect family destination."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-display font-bold text-primary">JM</div>
+          <div>
+            <div class="font-semibold text-sm text-forest">Jeanne M.</div>
+            <div class="text-xs text-forest/50">Kigali, Rwanda · Nov 2025</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-8 shadow-lg section-reveal">
+        <div class="flex items-center gap-1 mb-4 text-amber">★★★★★</div>
+        <p class="text-forest/70 mb-6 italic">"Mbaraga AI created a workout plan using the natural gymnasium. I've never felt more connected to my fitness journey. The meal plans with local ingredients are genius."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-display font-bold text-primary">DK</div>
+          <div>
+            <div class="font-semibold text-sm text-forest">David K.</div>
+            <div class="text-xs text-forest/50">Nairobi, Kenya · Dec 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Impact Dashboard -->
+<section class="py-24 sm:py-32 bg-forest text-white relative overflow-hidden">
+  <div class="absolute inset-0 opacity-10" style="background: url('https://image.qwenlm.ai/public_source/534da5a8-8c73-4950-9fd3-ab6e465164d5/1891cb4f3-b9c2-4f8b-86c2-6add44242edd.png') center/cover;"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="text-center mb-16 section-reveal">
+      <span class="badge bg-pale/20 text-pale mb-4">OUR IMPACT</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl mb-4">Growing Green Together</h2>
+      <p class="text-white/60 text-lg max-w-2xl mx-auto">Aligned with Rwanda's Vision 2050 and Green Growth Strategy</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+      <div class="text-center section-reveal">
+        <div class="counter-value text-pale" data-target="17420">0</div>
+        <div class="text-white/60 text-sm mt-2">Trees Planted</div>
+        <div class="progress-bar mt-3 max-w-[120px] mx-auto"><div class="fill" style="width: 72%"></div></div>
+      </div>
+      <div class="text-center section-reveal">
+        <div class="counter-value text-pale" data-target="8540">0</div>
+        <div class="text-white/60 text-sm mt-2">Visitors Hosted</div>
+        <div class="progress-bar mt-3 max-w-[120px] mx-auto"><div class="fill" style="width: 58%"></div></div>
+      </div>
+      <div class="text-center section-reveal">
+        <div class="counter-value text-pale" data-target="142">0</div>
+        <div class="text-white/60 text-sm mt-2">Green Jobs Created</div>
+        <div class="progress-bar mt-3 max-w-[120px] mx-auto"><div class="fill" style="width: 45%"></div></div>
+      </div>
+      <div class="text-center section-reveal">
+        <div class="counter-value text-pale" data-target="38">0</div>
+        <div class="text-white/60 text-sm mt-2">Community Partners</div>
+        <div class="progress-bar mt-3 max-w-[120px] mx-auto"><div class="fill" style="width: 65%"></div></div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-4 section-reveal">
+      <div class="sdg-badge bg-blue-500/20 text-blue-200 border border-blue-400/30">
+        <span class="font-bold">SDG 11</span> Sustainable Cities
+      </div>
+      <div class="sdg-badge bg-green-500/20 text-green-200 border border-green-400/30">
+        <span class="font-bold">SDG 13</span> Climate Action
+      </div>
+      <div class="sdg-badge bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
+        <span class="font-bold">SDG 15</span> Life on Land
+      </div>
+    </div>
+
+    <div class="text-center mt-12 section-reveal">
+      <button class="btn-accent" onclick="openBooking()">Partner With Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- Sport Mode Preview -->
+<section class="py-24 sm:py-32 bg-gradient-to-br from-coral/5 to-amber/5" id="sport">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="section-reveal">
+        <span class="badge bg-coral/10 text-coral mb-4">SPORT MODE</span>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl text-forest mb-6 leading-tight">
+          Mbaraga —<br>
+          <span class="text-coral">Power Born from the Earth</span>
+        </h2>
+        <p class="text-forest/70 text-lg leading-relaxed mb-8">
+          Switch to Sport Mode and unlock AI-powered personal wellness coaching. Mbaraga creates personalized workout plans using our natural gymnasium, trail network, and farm-to-table nutrition — all tailored to your health profile and fitness goals.
+        </p>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-coral/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-forest">Health-Safe AI</div>
+              <div class="text-sm text-forest/60">Condition-aware plans for hypertension, diabetes, asthma, and more</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-coral/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-forest">Local Ingredient Meal Plans</div>
+              <div class="text-sm text-forest/60">Rwandan superfoods, farm-to-table recipes, portion-calculated nutrition</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-coral/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-forest">Progress Tracking</div>
+              <div class="text-sm text-forest/60">Wearable integration, weekly insights, predictive goal modeling</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-sport glow-effect" onclick="toggleMode()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
+          Activate Sport Mode
+        </button>
+      </div>
+
+      <div class="section-reveal">
+        <!-- Workout Preview Card -->
+        <div class="bg-white rounded-2xl shadow-2xl p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-xs font-mono text-coral uppercase tracking-wider">Today's Plan</div>
+              <div class="font-display font-bold text-xl text-forest">Monday · Strength Day</div>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-coral/10 flex items-center justify-center">
+              <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+          </div>
+
+          <div class="workout-card">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-semibold text-forest text-sm">Pull-ups</span>
+              <span class="text-xs font-mono text-coral">3 × 8-10</span>
+            </div>
+            <div class="text-xs text-forest/50">Natural Gymnasium · Pull-up Bar</div>
+          </div>
+          <div class="workout-card">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-semibold text-forest text-sm">Hill Sprints</span>
+              <span class="text-xs font-mono text-coral">6 × 30s</span>
+            </div>
+            <div class="text-xs text-forest/50">Trail Network · 15% Gradient</div>
+          </div>
+          <div class="workout-card">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-semibold text-forest text-sm">Yoga Flow</span>
+              <span class="text-xs font-mono text-coral">20 min</span>
+            </div>
+            <div class="text-xs text-forest/50">Meditation Deck · Recovery</div>
+          </div>
+
+          <div class="pt-4 border-t border-gray-100">
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-forest/60">Estimated Calories</span>
+              <span class="font-display font-bold text-coral text-lg">320 kcal</span>
+            </div>
+            <div class="flex items-center justify-between text-sm mt-2">
+              <span class="text-forest/60">Duration</span>
+              <span class="font-display font-bold text-forest text-lg">45 min</span>
+            </div>
+          </div>
+
+          <div class="bg-coral/5 rounded-xl p-4 flex items-start gap-3">
+            <span class="text-lg">💡</span>
+            <div class="text-xs text-forest/70">
+              <span class="font-semibold text-coral">Mbaraga says:</span> "Increase protein intake on strength days. Consider adding groundnuts to your breakfast."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Booking Section -->
+<section class="py-24 sm:py-32 bg-white" id="booking">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 section-reveal">
+      <span class="badge bg-pale text-earth mb-4">BOOK YOUR VISIT</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl text-forest mb-4">Plan Your Experience</h2>
+      <p class="text-forest/60 text-lg max-w-2xl mx-auto">Choose from our curated experiences and book in seconds</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <div class="bg-mist rounded-2xl p-8 text-center section-reveal hover:shadow-lg transition-shadow cursor-pointer" onclick="selectExperience('daypass')">
+        <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-forest mb-2">Day Pass</h3>
+        <p class="text-forest/60 text-sm mb-4">Nature Watching + Family Park access</p>
+        <div class="font-display font-bold text-2xl text-primary">RWF 5,000</div>
+        <div class="text-xs text-forest/40 mt-1">per person</div>
+      </div>
+
+      <div class="bg-mist rounded-2xl p-8 text-center section-reveal hover:shadow-lg transition-shadow cursor-pointer ring-2 ring-primary/20 relative" onclick="selectExperience('hiking')">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2"><span class="badge bg-primary text-white">POPULAR</span></div>
+        <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-forest mb-2">Hiking Experience</h3>
+        <p class="text-forest/60 text-sm mb-4">Guided trail with equipment & snacks</p>
+        <div class="font-display font-bold text-2xl text-primary">RWF 15,000</div>
+        <div class="text-xs text-forest/40 mt-1">per person</div>
+      </div>
+
+      <div class="bg-mist rounded-2xl p-8 text-center section-reveal hover:shadow-lg transition-shadow cursor-pointer" onclick="selectExperience('camping')">
+        <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-forest mb-2">Camping Package</h3>
+        <p class="text-forest/60 text-sm mb-4">1-3 nights with glamping option</p>
+        <div class="font-display font-bold text-2xl text-primary">RWF 25,000</div>
+        <div class="text-xs text-forest/40 mt-1">per night</div>
+      </div>
+    </div>
+
+    <div class="text-center section-reveal">
+      <button class="btn-primary !py-4 !px-10 text-lg" onclick="openBooking()">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Book Now
+      </button>
+      <p class="text-forest/40 text-sm mt-4">Moblie Money · Card · Bank Transfer accepted</p>
+    </div>
+  </div>
+</section>
+
+<!-- Membership Tiers -->
+<section class="py-24 sm:py-32 bg-mist">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 section-reveal">
+      <span class="badge bg-pale text-earth mb-4">MEMBERSHIP</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl text-forest mb-4">Join the Biophilia Family</h2>
+      <p class="text-forest/60 text-lg max-w-2xl mx-auto">Three tiers of membership, from free access to full AI wellness</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Free -->
+      <div class="bg-white rounded-2xl p-8 shadow-lg section-reveal">
+        <div class="text-sm font-mono text-earth uppercase tracking-wider mb-2">Free Member</div>
+        <div class="font-display font-bold text-4xl text-forest mb-1">RWF 0</div>
+        <div class="text-forest/40 text-sm mb-6">forever free</div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Account via Google Sign-In</li>
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Booking history</li>
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Newsletter subscription</li>
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Basic trail maps</li>
+        </ul>
+        <button class="btn-secondary w-full justify-center">Get Started</button>
+      </div>
+
+      <!-- Green -->
+      <div class="bg-white rounded-2xl p-8 shadow-lg section-reveal ring-2 ring-primary relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2"><span class="badge bg-primary text-white">RECOMMENDED</span></div>
+        <div class="text-sm font-mono text-earth uppercase tracking-wider mb-2">Green Member</div>
+        <div class="font-display font-bold text-4xl text-forest mb-1">RWF 15,000</div>
+        <div class="text-forest/40 text-sm mb-6">per month</div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>All Free features +</li>
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>15% discount on bookings</li>
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Priority booking (48h early)</li>
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Free equipment rental</li>
+          <li class="flex items-start gap-3 text-sm text-forest/70"><svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Monthly nature journal</li>
+        </ul>
+        <button class="btn-primary w-full justify-center">Join Green</button>
+      </div>
+
+      <!-- Biophilia -->
+      <div class="bg-forest rounded-2xl p-8 shadow-lg section-reveal text-white">
+        <div class="text-sm font-mono text-pale uppercase tracking-wider mb-2">Biophilia Member</div>
+        <div class="font-display font-bold text-4xl mb-1">RWF 35,000</div>
+        <div class="text-white/40 text-sm mb-6">per month</div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm text-white/80"><svg class="w-5 h-5 text-pale flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>All Green features +</li>
+          <li class="flex items-start gap-3 text-sm text-white/80"><svg class="w-5 h-5 text-pale flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Unlimited day passes</li>
+          <li class="flex items-start gap-3 text-sm text-white/80"><svg class="w-5 h-5 text-pale flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Free camping (10 nights/yr)</li>
+          <li class="flex items-start gap-3 text-sm text-white/80"><svg class="w-5 h-5 text-pale flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Full Sport Mode access</li>
+          <li class="flex items-start gap-3 text-sm text-white/80"><svg class="w-5 h-5 text-pale flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Guest passes (2 friends/month)</li>
+        </ul>
+        <button class="btn-accent w-full justify-center">Go Premium</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-forest text-white pt-20 pb-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-4 gap-12 mb-16">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white font-display font-bold text-xl">J</div>
+          <div>
+            <div class="font-display font-bold text-xl">Jali Biophilia</div>
+            <div class="text-xs text-white/50 tracking-wider uppercase">Where Nature Meets Your Potential</div>
+          </div>
+        </div>
+        <p class="text-white/60 mb-6 max-w-md">Rwanda's premier nature-integrated wellness destination beneath Mt Jali, Gashyushya. AI-powered tourism and personal wellness coaching.</p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-display font-bold mb-6">Quick Links</h4>
+        <ul class="space-y-3 text-sm text-white/60">
+          <li><a href="#services" class="hover:text-pale transition-colors">Services</a></li>
+          <li><a href="#trails" class="hover:text-pale transition-colors">Trail Network</a></li>
+          <li><a href="#map" class="hover:text-pale transition-colors">Interactive Map</a></li>
+          <li><a href="#booking" class="hover:text-pale transition-colors">Book Experience</a></li>
+          <li><a href="#sport" class="hover:text-pale transition-colors">Sport Mode</a></li>
+          <li><a href="#" class="hover:text-pale transition-colors">Conservation</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-display font-bold mb-6">Contact</h4>
+        <ul class="space-y-3 text-sm text-white/60">
+          <li class="flex items-start gap-2">
+            <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Gashyushya, Kigali-Gatuna Road, Rwanda
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            hello@jalibiophilia.rw
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            +250 788 584 610
+          </li>
+        </ul>
+
+        <!-- Newsletter -->
+        <div class="mt-8">
+          <h5 class="font-semibold text-sm mb-3">Newsletter</h5>
+          <div class="flex gap-2">
+            <input type="email" placeholder="your@email.com" class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none focus:border-pale transition-colors">
+            <button class="bg-primary hover:bg-primary/80 transition-colors rounded-lg px-4 py-2.5 text-sm font-semibold">Join</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="text-white/40 text-sm">© 2026 Jali Biophilia. All rights reserved.</div>
+      <div class="flex gap-6 text-sm text-white/40">
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+        <a href="#" class="hover:text-white transition-colors">Safety Guidelines</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Umugide Chat Widget -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header" id="chatHeader">
+      <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl leaf-pulse"></div>
+      <div class="flex-1">
+        <div class="font-display font-bold">Umugide</div>
+        <div class="text-xs text-white/70">Your Nature Guide · Online</div>
+      </div>
+      <button onclick="toggleChat()" class="text-white/70 hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">
+        Muraho! 🌿 I'm Umugide, your guide to Jali Biophilia. How can I help you today?
+      </div>
+    </div>
+    <div class="quick-replies" id="quickReplies">
+      <button class="quick-reply" onclick="sendQuickReply('What trails are available?')">🥾 Trails</button>
+      <button class="quick-reply" onclick="sendQuickReply('How do I book?')">📅 Booking</button>
+      <button class="quick-reply" onclick="sendQuickReply('Tell me about Sport Mode')">💪 Sport Mode</button>
+      <button class="quick-reply" onclick="sendQuickReply('What are the prices?')"> Pricing</button>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Ask Umugide anything..." onkeypress="if(event.key==='Enter')sendChat()">
+      <button onclick="sendChat()">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+      </button>
+    </div>
+  </div>
+  <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
+    <span id="chatIcon">💬</span>
+  </button>
+</div>
+
+<!-- Booking Modal -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-content">
+    <div class="p-8">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h3 class="font-display font-bold text-2xl text-forest">Book Your Experience</h3>
+          <p class="text-forest/50 text-sm mt-1">Fill in your details to reserve your visit</p>
+        </div>
+        <button onclick="closeBooking()" class="w-10 h-10 rounded-full bg-mist flex items-center justify-center hover:bg-gray-200 transition-colors">
+          <svg class="w-5 h-5 text-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label class="block text-sm font-semibold text-forest mb-2">Experience Type</label>
+          <select class="form-input" id="bookingExperience">
+            <option>Day Pass — Nature Watching + Family Park</option>
+            <option>Hiking Experience — Guided Trail</option>
+            <option>Camping Package — 1-3 Nights</option>
+            <option>Family Bundle — 2 Adults + Children</option>
+            <option>Corporate Retreat</option>
+            <option>School Educational Visit</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-forest mb-2">Date</label>
+            <input type="date" class="form-input" id="bookingDate">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-forest mb-2">Guests</label>
+            <select class="form-input">
+              <option>1 Guest</option>
+              <option>2 Guests</option>
+              <option>3 Guests</option>
+              <option>4 Guests</option>
+              <option>5+ Guests</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-forest mb-2">Full Name</label>
+          <input type="text" class="form-input" placeholder="Your full name">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-forest mb-2">Email</label>
+            <input type="email" class="form-input" placeholder="your@email.com">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-forest mb-2">Phone</label>
+            <input type="tel" class="form-input" placeholder="+250 7XX XXX XXX">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-forest mb-2">Special Requirements</label>
+          <textarea class="form-input" rows="3" placeholder="Dietary needs, accessibility, medical conditions..."></textarea>
+        </div>
+
+        <div class="bg-mist rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <div class="text-sm text-forest/60">Estimated Total</div>
+            <div class="font-display font-bold text-2xl text-primary">RWF 15,000</div>
+          </div>
+          <div class="text-right text-xs text-forest/50">
+            <div>M-Pesa · Card · Bank</div>
+            <div class="mt-1">Secure payment</div>
+          </div>
+        </div>
+
+        <button class="btn-primary w-full justify-center !py-4 text-lg" onclick="confirmBooking()">
+          Confirm Booking
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Confirmation Modal -->
+<div class="modal-overlay" id="confirmationModal">
+  <div class="modal-content max-w-md">
+    <div class="p-8 text-center">
+      <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+        <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h3 class="font-display font-bold text-2xl text-forest mb-2">Booking Confirmed!</h3>
+      <p class="text-forest/60 mb-6">Your experience at Jali Biophilia has been reserved. A confirmation email with your QR code ticket has been sent.</p>
+      <div class="bg-mist rounded-xl p-6 mb-6">
+        <div class="font-mono text-xs text-forest/40 mb-2">BOOKING REFERENCE</div>
+        <div class="font-display font-bold text-xl text-forest" id="bookingRef">JB-2026-0847</div>
+      </div>
+      <button class="btn-primary w-full justify-center" onclick="closeConfirmation()">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ LENIS SMOOTH SCROLL ============
+const lenis = new Lenis({
+  lerp: 0.08,
+  smoothWheel: true,
+  wheelMultiplier: 0.8,
+  touchMultiplier: 1.5,
+});
+
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+// ============ GSAP ANIMATIONS ============
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero animations
+const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+heroTl
+  .to('#heroLabel', { opacity: 1, y: 0, duration: 0.8, delay: 0.3 })
+  .from('#heroTitle1', { y: 80, opacity: 0, duration: 1 }, '-=0.4')
+  .from('#heroTitle2', { y: 80, opacity: 0, duration: 1 }, '-=0.7')
+  .to('#heroSubtitle', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
+  .to('#heroCta', { opacity: 1, y: 0, duration: 0.8 }, '-=0.4');
+
+// Hero parallax
+gsap.to('#heroBg', {
+  yPercent: 30,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#hero',
+    start: 'top top',
+    end: 'bottom top',
+    scrub: true,
+  }
+});
+
+// Section reveals
+gsap.utils.toArray('.section-reveal').forEach((section) => {
+  gsap.to(section, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: section,
+      start: 'top 85%',
+      toggleActions: 'play none none reverse',
+    }
+  });
+});
+
+// Service cards stagger
+gsap.from('.service-card', {
+  scrollTrigger: { trigger: '#servicesGrid', start: 'top 80%' },
+  y: 80,
+  opacity: 0,
+  duration: 0.8,
+  stagger: 0.15,
+  ease: 'back.out(1.2)',
+});
+
+// ============ ELEVATION COUNTER ============
+let elevationCounted = false;
+ScrollTrigger.create({
+  trigger: '#hero',
+  start: 'top top',
+  onEnter: () => {
+    if (!elevationCounted) {
+      elevationCounted = true;
+      const el = document.getElementById('elevationCounter');
+      let current = 0;
+      const target = 2078;
+      const duration = 2000;
+      const startTime = performance.now();
+      function animate(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        current = Math.floor(eased * target);
+        el.textContent = current.toLocaleString() + 'm';
+        if (progress < 1) requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    }
+  }
+});
+
+// ============ IMPACT COUNTERS ============
+let countersAnimated = false;
+ScrollTrigger.create({
+  trigger: '#community',
+  start: 'top 70%',
+  onEnter: () => {
+    if (countersAnimated) return;
+    countersAnimated = true;
+    document.querySelectorAll('.counter-value[data-target]').forEach(el => {
+      const target = parseInt(el.dataset.target);
+      const duration = 2500;
+      const startTime = performance.now();
+      function animate(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target).toLocaleString();
+        if (progress < 1) requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    });
+  }
+});
+
+// ============ THREE.JS TERRAIN ============
+function initThreeScene() {
+  const container = document.getElementById('three-container');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x87CEEB, 20, 80);
+
+  const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+  camera.position.set(0, 15, 30);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(10, 20, 10);
+  scene.add(directionalLight);
+
+  // Terrain
+  const terrainGeo = new THREE.PlaneGeometry(60, 60, 80, 80);
+  const vertices = terrainGeo.attributes.position.array;
+
+  // Simple noise function for terrain
+  function noise(x, z) {
+    return Math.sin(x * 0.3) * Math.cos(z * 0.3) * 3 +
+           Math.sin(x * 0.7 + 1) * Math.cos(z * 0.5 + 2) * 1.5 +
+           Math.sin(x * 0.15) * Math.cos(z * 0.15) * 5;
+  }
+
+  for (let i = 0; i < vertices.length; i += 3) {
+    const x = vertices[i];
+    const z = vertices[i + 1];
+    vertices[i + 2] = noise(x * 0.5, z * 0.5);
+  }
+
+  terrainGeo.computeVertexNormals();
+
+  // Color terrain
+  const colors = [];
+  for (let i = 0; i < vertices.length; i += 3) {
+    const height = vertices[i + 2];
+    let r, g, b;
+    if (height < -2) {
+      r = 0.3; g = 0.5; b = 0.3;
+    } else if (height < 2) {
+      r = 0.2; g = 0.6; b = 0.25;
+    } else if (height < 5) {
+      r = 0.15; g = 0.45; b = 0.2;
+    } else {
+      r = 0.6; g = 0.55; b = 0.45;
+    }
+    colors.push(r, g, b);
+  }
+  terrainGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  const terrainMat = new THREE.MeshLambertMaterial({
+    vertexColors: true,
+    flatShading: true,
+  });
+
+  const terrain = new THREE.Mesh(terrainGeo, terrainMat);
+  terrain.rotation.x = -Math.PI / 2;
+  scene.add(terrain);
+
+  // Water
+  const waterGeo = new THREE.PlaneGeometry(60, 60);
+  const waterMat = new THREE.MeshLambertMaterial({
+    color: 0x4488aa,
+    transparent: true,
+    opacity: 0.6,
+  });
+  const water = new THREE.Mesh(waterGeo, waterMat);
+  water.rotation.x = -Math.PI / 2;
+  water.position.y = -2.5;
+  scene.add(water);
+
+  // Trees (simple cones)
+  const treeGeo = new THREE.ConeGeometry(0.4, 2, 6);
+  const treeMat = new THREE.MeshLambertMaterial({ color: 0x1a5c2a });
+  const trunkGeo = new THREE.CylinderGeometry(0.1, 0.15, 0.8, 6);
+  const trunkMat = new THREE.MeshLambertMaterial({ color: 0x5c3a1a });
+
+  for (let i = 0; i < 60; i++) {
+    const x = (Math.random() - 0.5) * 50;
+    const z = (Math.random() - 0.5) * 50;
+    const h = noise(x * 0.5, z * 0.5);
+
+    if (h > -1 && h < 4) {
+      const tree = new THREE.Mesh(treeGeo, treeMat);
+      tree.position.set(x, h + 1, z);
+      tree.scale.set(0.8 + Math.random() * 0.6, 0.8 + Math.random() * 0.8, 0.8 + Math.random() * 0.6);
+      scene.add(tree);
+
+      const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+      trunk.position.set(x, h + 0.3, z);
+      scene.add(trunk);
+    }
+  }
+
+  // Mountain peak
+  const peakGeo = new THREE.ConeGeometry(4, 10, 8);
+  const peakMat = new THREE.MeshLambertMaterial({ color: 0x2d5a3d, flatShading: true });
+  const peak = new THREE.Mesh(peakGeo, peakMat);
+  peak.position.set(0, 3, -15);
+  scene.add(peak);
+
+  // Markers
+  const markerPositions = [
+    { x: -10, z: 10, label: '🅿️', color: 0x1B4D3E },
+    { x: 5, z: 8, label: '👨‍👩‍👧', color: 0x8B6914 },
+    { x: -5, z: -5, label: '🥾', color: 0xE07A5F },
+    { x: 10, z: -8, label: '', color: 0xD4A843 },
+    { x: 0, z: 0, label: '💪', color: 0xF4E4BC },
+  ];
+
+  markerPositions.forEach(m => {
+    const markerGeo = new THREE.SphereGeometry(0.5, 16, 16);
+    const markerMat = new THREE.MeshLambertMaterial({ color: m.color, emissive: m.color, emissiveIntensity: 0.3 });
+    const marker = new THREE.Mesh(markerGeo, markerMat);
+    const h = noise(m.x * 0.5, m.z * 0.5);
+    marker.position.set(m.x, Math.max(h, -2) + 1, m.z);
+    scene.add(marker);
+  });
+
+  // Mouse interaction
+  let isDragging = false;
+  let previousMouse = { x: 0, y: 0 };
+  let rotation = { x: 0.3, y: 0 };
+
+  renderer.domElement.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    previousMouse = { x: e.clientX, y: e.clientY };
+  });
+
+  renderer.domElement.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - previousMouse.x;
+    const dy = e.clientY - previousMouse.y;
+    rotation.y += dx * 0.005;
+    rotation.x = Math.max(0.1, Math.min(1.2, rotation.x + dy * 0.005));
+    previousMouse = { x: e.clientX, y: e.clientY };
+  });
+
+  renderer.domElement.addEventListener('mouseup', () => isDragging = false);
+  renderer.domElement.addEventListener('mouseleave', () => isDragging = false);
+
+  // Touch support
+  renderer.domElement.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    previousMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  });
+  renderer.domElement.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const dx = e.touches[0].clientX - previousMouse.x;
+    const dy = e.touches[0].clientY - previousMouse.y;
+    rotation.y += dx * 0.005;
+    rotation.x = Math.max(0.1, Math.min(1.2, rotation.x + dy * 0.005));
+    previousMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  });
+  renderer.domElement.addEventListener('touchend', () => isDragging = false);
+
+  // Scroll zoom
+  renderer.domElement.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    camera.position.z = Math.max(15, Math.min(50, camera.position.z + e.deltaY * 0.02));
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    if (!isDragging) {
+      rotation.y += 0.001;
+    }
+    camera.position.x = Math.sin(rotation.y) * 30 * Math.cos(rotation.x);
+    camera.position.y = 15 * Math.sin(rotation.x) + 5;
+    camera.position.z = Math.cos(rotation.y) * 30 * Math.cos(rotation.x);
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.resetCamera = function() {
+    rotation = { x: 0.3, y: 0 };
+    camera.position.set(0, 15, 30);
+  };
+
+  window.addEventListener('resize', () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+}
+
+initThreeScene();
+
+// ============ MODE SWITCHER ============
+let currentMode = 'tourist';
+
+function toggleMode() {
+  currentMode = currentMode === 'tourist' ? 'sport' : 'tourist';
+  const switcher = document.getElementById('modeSwitcher');
+  const body = document.body;
+  const touristLabel = document.getElementById('touristLabel');
+  const sportLabel = document.getElementById('sportLabel');
+  const chatToggle = document.getElementById('chatToggle');
+  const chatHeader = document.getElementById('chatHeader');
+
+  if (currentMode === 'sport') {
+    switcher.classList.add('sport');
+    body.classList.add('sport-active');
+    touristLabel.classList.remove('active-label');
+    sportLabel.classList.add('active-label');
+    chatToggle.classList.add('sport-mode-btn');
+    chatHeader.classList.add('sport-header');
+    document.getElementById('chatIcon').textContent = '🔥';
+    document.querySelectorAll('.chat-msg.bot').forEach(m => m.classList.add('sport-msg'));
+    document.querySelectorAll('.chat-msg.user').forEach(m => m.classList.add('sport-user'));
+  } else {
+    switcher.classList.remove('sport');
+    body.classList.remove('sport-active');
+    touristLabel.classList.add('active-label');
+    sportLabel.classList.remove('active-label');
+    chatToggle.classList.remove('sport-mode-btn');
+    chatHeader.classList.remove('sport-header');
+    document.getElementById('chatIcon').textContent = '💬';
+    document.querySelectorAll('.chat-msg.bot').forEach(m => m.classList.remove('sport-msg'));
+    document.querySelectorAll('.chat-msg.user').forEach(m => m.classList.remove('sport-user'));
+  }
+
+  // Persist
+  localStorage.setItem('jaliMode', currentMode);
+}
+
+// Load saved mode
+const savedMode = localStorage.getItem('jaliMode');
+if (savedMode === 'sport') toggleMode();
+
+// ============ CHATBOT ============
+let chatOpen = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatPanel').classList.toggle('open', chatOpen);
+}
+
+const chatResponses = {
+  'trails': "We have three trails:  Valley Loop (2km, easy, 45min), Forest Ascent (4km, moderate, 2hrs), and Summit Challenge (6km, hard, 3.5hrs). All start from Gashyushya entrance. Which interests you?",
+  'booking': "You can book directly on our website! Choose your experience type, select a date, and pay via M-Pesa, card, or bank transfer. You'll receive a QR code ticket via email. 📱",
+  'sport': "Sport Mode features Mbaraga AI — your personal wellness coach! It creates workout plans using our natural gymnasium, trail network, and farm-to-table nutrition. Switch to Sport Mode using the toggle in the nav! 💪",
+  'pricing': "Day Pass: RWF 5,000 | Hiking: RWF 15,000 | Camping: RWF 25,000/night | Green Membership: RWF 15,000/month | Biophilia Premium: RWF 35,000/month. Murakoze! 🌿",
+  'hours': "We're open daily 6:00 AM - 6:00 PM. Trails close at 4:00 PM for safety. Camping check-in from 2:00 PM. 🕐",
+  'location': "We're located in Gashyushya, along the Kigali-Gatuna Road, beneath Mt Jali (2,078m). About 20 minutes from central Kigali. 📍",
+  'default': "Murakoze for your question! I can help with trails, booking, pricing, Sport Mode, hours, and location. What would you like to know? "
+};
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  if (!message) return;
+
+  addMessage(message, 'user');
+  input.value = '';
+
+  // Show typing
+  showTyping();
+
+  setTimeout(() => {
+    removeTyping();
+    const lower = message.toLowerCase();
+    let response = chatResponses.default;
+    if (lower.includes('trail') || lower.includes('hike')) response = chatResponses.trails;
+    else if (lower.includes('book') || lower.includes('reserve')) response = chatResponses.booking;
+    else if (lower.includes('sport') || lower.includes('mbaraga') || lower.includes('workout')) response = chatResponses.sport;
+    else if (lower.includes('price') || lower.includes('cost') || lower.includes('how much')) response = chatResponses.pricing;
+    else if (lower.includes('hour') || lower.includes('open') || lower.includes('time')) response = chatResponses.hours;
+    else if (lower.includes('where') || lower.includes('location') || lower.includes('address')) response = chatResponses.location;
+
+    addMessage(response, 'bot');
+  }, 1200);
+}
+
+function sendQuickReply(text) {
+  document.getElementById('chatInput').value = text;
+  sendChat();
+}
+
+function addMessage(text, role) {
+  const messages = document.getElementById('chatMessages');
+  const msg = document.createElement('div');
+  msg.className = `chat-msg ${role}`;
+  if (currentMode === 'sport') msg.classList.add(role === 'bot' ? 'sport-msg' : 'sport-user');
+  msg.textContent = text;
+  messages.appendChild(msg);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function showTyping() {
+  const messages = document.getElementById('chatMessages');
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg bot typing-indicator';
+  typing.id = 'typingIndicator';
+  if (currentMode === 'sport') typing.classList.add('sport-msg');
+  typing.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeTyping() {
+  const typing = document.getElementById('typingIndicator');
+  if (typing) typing.remove();
+}
+
+// ============ BOOKING MODAL ============
+function openBooking() {
+  document.getElementById('bookingModal').classList.add('open');
+  lenis.stop();
+}
+
+function closeBooking() {
+  document.getElementById('bookingModal').classList.remove('open');
+  lenis.start();
+}
+
+function confirmBooking() {
+  closeBooking();
+  const ref = 'JB-2026-' + Math.floor(1000 + Math.random() * 9000);
+  document.getElementById('bookingRef').textContent = ref;
+  document.getElementById('confirmationModal').classList.add('open');
+}
+
+function closeConfirmation() {
+  document.getElementById('confirmationModal').classList.remove('open');
+  lenis.start();
+}
+
+function selectExperience(type) {
+  openBooking();
+  const select = document.getElementById('bookingExperience');
+  const options = {
+    'daypass': 0,
+    'hiking': 1,
+    'camping': 2,
+  };
+  if (options[type] !== undefined) select.selectedIndex = options[type];
+}
+
+// ============ MOBILE MENU ============
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ============ NAV SCROLL EFFECT ============
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  const scrollY = window.scrollY;
+
+  if (scrollY > 100) {
+    nav.style.boxShadow = '0 4px 20px rgba(13,51,40,0.1)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+
+  lastScroll = scrollY;
+});
+
+// ============ SMOOTH SCROLL FOR ANCHOR LINKS ============
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      lenis.scrollTo(target, { offset: -80 });
+    }
+  });
+});
+
+// Close modals on overlay click
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+  if (e.target === this) closeBooking();
+});
+document.getElementById('confirmationModal').addEventListener('click', function(e) {
+  if (e.target === this) closeConfirmation();
+});
+
+// Set min date for booking
+const dateInput = document.getElementById('bookingDate');
+if (dateInput) {
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+  dateInput.value = today;
+}
+
+console.log('🌿 Jali Biophilia loaded successfully');
+console.log('🏔️ Mt Jali: 2,078m above sea level');
+console.log(' Gashyushya, Kigali, Rwanda');
+</script>
+</body>
+</html>
+
